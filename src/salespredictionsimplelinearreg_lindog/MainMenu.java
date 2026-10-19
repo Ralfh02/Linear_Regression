@@ -45,10 +45,10 @@ public class MainMenu extends javax.swing.JFrame {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.insets = new Insets(10, 0, 10, 0);
-        javax.swing.JButton[] buttons = { btnForm1, btnForm2, btnForm3 };
+        javax.swing.JButton[] buttons = { btnForm1, btnForm2, btnForm3, btnForm4 };
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setFont(buttons[i].getFont().deriveFont(Font.BOLD, 15f));
-            buttons[i].setPreferredSize(new Dimension(460, 60));
+            buttons[i].setPreferredSize(new Dimension(620, 60));
             c.gridy = i;
             jPanel2.add(buttons[i], c);
         }
@@ -77,6 +77,7 @@ public class MainMenu extends javax.swing.JFrame {
         btnForm1 = new javax.swing.JButton();
         btnForm2 = new javax.swing.JButton();
         btnForm3 = new javax.swing.JButton();
+        btnForm4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,16 +138,28 @@ public class MainMenu extends javax.swing.JFrame {
         });
         btnForm3.addActionListener(this::btnForm3ActionPerformed);
 
+        btnForm4.setText("Employee Promotion Using Random Forest – Save and Load Model");
+        btnForm4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnForm4MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnForm4MouseExited(evt);
+            }
+        });
+        btnForm4.addActionListener(this::btnForm4ActionPerformed);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
+                .addContainerGap(143, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnForm2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnForm1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-                    .addComponent(btnForm3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnForm1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnForm3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnForm4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(61, 61, 61))
         );
         jPanel2Layout.setVerticalGroup(
@@ -158,7 +171,9 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(btnForm2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnForm3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnForm4, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -236,6 +251,23 @@ public class MainMenu extends javax.swing.JFrame {
         n.setVisible(true);
     }//GEN-LAST:event_btnForm2ActionPerformed
 
+    private void btnForm4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnForm4MouseEntered
+        // TODO add your handling code here:
+        btnForm4.setBackground(Color.ORANGE);
+    }//GEN-LAST:event_btnForm4MouseEntered
+
+    private void btnForm4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnForm4MouseExited
+        // TODO add your handling code here:
+        btnForm4.setBackground(Color.WHITE);
+    }//GEN-LAST:event_btnForm4MouseExited
+
+    private void btnForm4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForm4ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        FrmEmployeePromotionSaveLoadLindog n = new FrmEmployeePromotionSaveLoadLindog();
+        n.setVisible(true);
+    }//GEN-LAST:event_btnForm4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -265,6 +297,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnForm1;
     private javax.swing.JButton btnForm2;
     private javax.swing.JButton btnForm3;
+    private javax.swing.JButton btnForm4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
