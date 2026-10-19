@@ -98,6 +98,8 @@ public class FrmEmployeePromotionSaveLoadLindog extends javax.swing.JFrame {
         txtTable.setFont(mono);
         txtEvaluation.setFont(mono);
         txtEvaluation.setEditable(false);
+        txtARFF.setEditable(false);
+        txtTable.setEditable(false);
         jScrollPane1.setPreferredSize(new Dimension(100, 120));
         jScrollPane2.setPreferredSize(new Dimension(100, 120));
         jScrollPane3.setPreferredSize(new Dimension(100, 120));
