@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JTextArea;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -61,6 +63,7 @@ public class FrmEmployeePromotionSaveLoadLindog extends javax.swing.JFrame {
     private JLabel lblDatasetSize;
     private JLabel lblStatus;
     private JLabel lblVerdict;
+    private JTable dataTable;
     /**
      * Creates new form FrmEmployeePromotionSaveLoadLindog
      */
@@ -95,14 +98,19 @@ public class FrmEmployeePromotionSaveLoadLindog extends javax.swing.JFrame {
         // ----- Top row: CSV view | Tabular view (50% / 50%) -----
         Font mono = new Font(Font.MONOSPACED, Font.PLAIN, 13);
         txtARFF.setFont(mono);
-        txtTable.setFont(mono);
         txtEvaluation.setFont(mono);
         txtEvaluation.setEditable(false);
         txtARFF.setEditable(false);
-        txtTable.setEditable(false);
         jScrollPane1.setPreferredSize(new Dimension(100, 120));
-        jScrollPane2.setPreferredSize(new Dimension(100, 120));
         jScrollPane3.setPreferredSize(new Dimension(100, 120));
+
+        // Create JTable for tabular view (replaces txtTable)
+        dataTable = new JTable();
+        dataTable.setFont(mono);
+        dataTable.setAutoCreateRowSorter(true);  // enable column sorting
+        dataTable.setFillsViewportHeight(true);
+        jScrollPane2.setViewportView(dataTable);
+        jScrollPane2.setPreferredSize(new Dimension(100, 120));
 
         JPanel topRow = new JPanel(new GridLayout(1, 2, 12, 0));
         topRow.add(labeledPanel(lblARFF, jScrollPane1));
@@ -318,37 +326,44 @@ public class FrmEmployeePromotionSaveLoadLindog extends javax.swing.JFrame {
         // Display the raw CSV contents (this frame does NOT show an ARFF preview)
         txtARFF.setText(new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8));
 
-        // Display the dataset in tabular form
-        StringBuilder output = new StringBuilder();
+        // Display the dataset in tabular form using JTable
+        DefaultTableModel tableModel = new DefaultTableModel() {
+            @Override public boolean isCellEditable(int row, int col) { return false; }
+        };
 
-        output.append("Education\tYears Service\tPerformance\tPromotion\n");
-
-        for (int i = 0; i < data.numInstances(); i++) {
-
-            String education = data.instance(i).stringValue(0);
-
-            double years = data.instance(i).value(1);
-
-            double performance = data.instance(i).value(2);
-
-            String promotion = data.instance(i).stringValue(3);
-
-            output.append(education)
-                  .append("\t")
-                  .append(years)
-                  .append("\t")
-                  .append(performance)
-                  .append("\t")
-                  .append(promotion)
-                  .append("\n");
+        // Column names from attribute names
+        for (int i = 0; i < data.numAttributes(); i++) {
+            tableModel.addColumn(data.attribute(i).name());
         }
 
-        txtTable.setText(output.toString());
+        // Row data
+        for (int i = 0; i < data.numInstances(); i++) {
+            Instance inst = data.instance(i);
+            Object[] row = new Object[data.numAttributes()];
+            for (int j = 0; j < data.numAttributes(); j++) {
+                if (data.attribute(j).isNominal() || data.attribute(j).isString()) {
+                    row[j] = inst.stringValue(j);
+                } else {
+                    row[j] = inst.value(j);
+                }
+            }
+            tableModel.addRow(row);
+        }
+
+        dataTable.setModel(tableModel);
+
+        // Adjust column widths
+        if (data.numAttributes() >= 4) {
+            dataTable.getColumnModel().getColumn(0).setPreferredWidth(100); // Education
+            dataTable.getColumnModel().getColumn(1).setPreferredWidth(100); // Years Service
+            dataTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Performance
+            dataTable.getColumnModel().getColumn(3).setPreferredWidth(80);  // Promotion
+        }
 
     } catch (Exception ex) {
 
         txtARFF.setText("");
-        txtTable.setText("");
+        dataTable.setModel(new DefaultTableModel());
         txtEvaluation.setText("");
 
         JOptionPane.showMessageDialog(
